@@ -1,2 +1,16 @@
 <h1>Products#detail</h1>
 <p>Find me in app/views/products/detail.html.erb</p>
+
+<pre>
+id: <%= @product.id %>
+title: <%= @product.title %>
+average_score: <%= @product.average_score %>
+
+reviews:
+<% @product.reviews.each do |review| %>
+  id: <%= review.id %>
+  score: <%= review.score %>
+  text: <%= review.text %>
+  --
+<% end %>
+</pre>
