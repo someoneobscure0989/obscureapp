@@ -1,16 +1,57 @@
-<h1>Products#detail</h1>
-<p>Find me in app/views/products/detail.html.erb</p>
 
-<pre>
-id: <%= @product.id %>
-title: <%= @product.title %>
-average_score: <%= @product.average_score %>
+<h1><%= @product.title %></h1>
 
-reviews:
-<% @product.reviews.each do |review| %>
-  id: <%= review.id %>
-  score: <%= review.score %>
-  text: <%= review.text %>
-  --
-<% end %>
-</pre>
+<div class="top-content">
+    <div class="average-rating">
+        <span><% if @product.average_score %><%= sprintf '%.1f', @product.average_score %><% else %>–.–<% end %></span>
+        <div class="stars" role="star-rating"
+            data-rating=<%= (@product.average_score || 0).round %>
+            data-rating-max="5">
+        </div>
+    </div>
+    <button id="btn-add-review">Add review</button>
+</div>
+
+<hr />
+
+<h2>Reviews</h2>
+
+<div class="reviews">
+    <% @product.reviews.each do |review| %>
+        <div class="review-row">
+            <div class="stars" role="star-rating"
+                data-rating=<%= review.score %>
+                data-rating-max="5">
+            </div>
+            <span>
+                <b><%= review.score %></b><% if review.text -%>, <%= review.text %><% end %>
+            </span>
+        </div>
+    <% end %>
+    <% unless @product.reviews.any? %>
+        <span>None yet.</span>
+    <% end %>
+</div>
+
+<template id="starSvg">
+    <svg
+      class="rating-star"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 53.867 53.867"
+      enable-background="new 0 0 53.867 53.867"
+      xml:space="preserve"
+    >
+        <defs>
+            <style type="text/css">
+                .star-full polygon { fill: #efce4a; }
+                .star-empty polygon { fill: #bfbfbf; }
+            </style>
+        </defs>
+        <polygon
+          points="26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182"
+        />
+    </svg>
+</template>
+
+<%= javascript_pack_tag 'starrating', 'data-turbolinks-track': 'reload' %>
