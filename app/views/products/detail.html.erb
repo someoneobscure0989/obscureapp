@@ -6,7 +6,8 @@
         <span><% if @product.average_score %><%= sprintf '%.1f', @product.average_score %><% else %>–.–<% end %></span>
         <div class="stars" role="star-rating"
             data-rating=<%= (@product.average_score || 0).round %>
-            data-rating-max="5">
+            data-rating-max="5"
+            data-rating-callback="ratingCallback">
         </div>
     </div>
     <button id="btn-add-review">Add review</button>
@@ -21,7 +22,8 @@
         <div class="review-row">
             <div class="stars" role="star-rating"
                 data-rating=<%= review.score %>
-                data-rating-max="5">
+                data-rating-max="5"
+                data-rating-readonly>
             </div>
             <span>
                 <b><%= review.score %></b><% if review.text -%>, <%= review.text %><% end %>
@@ -53,5 +55,11 @@
         />
     </svg>
 </template>
+
+<script>
+    function ratingCallback(score) {
+        console.log(`score: ${score}`)
+    }
+</script>
 
 <%= javascript_pack_tag 'starrating', 'data-turbolinks-track': 'reload' %>
