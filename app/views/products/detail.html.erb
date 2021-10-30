@@ -36,23 +36,18 @@
 </div>
 
 <template id="starSvg">
-    <svg
-      class="rating-star"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 53.867 53.867"
-      enable-background="new 0 0 53.867 53.867"
-      xml:space="preserve"
-    >
+    <svg class="rating-star" enable-background="new 0 0 53.867 53.867" version="1.1" viewBox="0 0 53.867 53.867" xml:space="preserve"
+        xmlns="http://www.w3.org/2000/svg">
         <defs>
             <style type="text/css">
-                .star-full polygon { fill: #efce4a; }
-                .star-empty polygon { fill: #bfbfbf; }
+                .star-full path { fill: #efce4a; }
+                .star-half .star__left { fill: #efce4a; }
+                .star-half .star__right { fill: #bfbfbf; }
+                .star-empty path { fill: #bfbfbf; }
             </style>
         </defs>
-        <polygon
-          points="26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182"
-        />
+        <path class="star__left" d="m26.902 1.3809-8.291 16.801-18.611 2.7051 13.467 13.127-3.1797 18.535 16.615-8.7344z" />
+        <path class="star__right" d="m26.902 1.3809v42.434l0.03125-0.01563 16.645 8.75-3.1777-18.535 13.467-13.127-18.611-2.7051-8.3223-16.863z" />
     </svg>
 </template>
 
