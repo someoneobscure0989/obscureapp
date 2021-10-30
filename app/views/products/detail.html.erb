@@ -56,10 +56,30 @@
     </svg>
 </template>
 
+<template id="rating-modal">
+    <h1>What's your rating?</h1>
+</template>
+
 <script>
     function ratingCallback(score) {
         console.log(`score: ${score}`)
     }
+
+    const ratingModal = new tingle.modal({
+        cssClass: ['rating-modal'],
+        onOpen: () => {
+            console.log('onOpen')
+        },
+        beforeClose: () => {
+            console.log('beforeClose')
+            return true
+        },
+    })
+    const btn = document.querySelector('#btn-add-review')
+    btn.addEventListener('click', function () {
+        ratingModal.open()
+    })
+    ratingModal.setContent(document.querySelector('#rating-modal').innerHTML)
 </script>
 
 <%= javascript_pack_tag 'starrating', 'data-turbolinks-track': 'reload' %>
