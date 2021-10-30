@@ -5,4 +5,8 @@ Rails.application.routes.draw do
 
   get '/products/:slug', to: 'products#detail'
   post '/products/submitReview', to: 'products#submit_review'
+
+  namespace :api do
+    resources :products, param: :slug, only: [:show], defaults: { format: :json }
+  end
 end
