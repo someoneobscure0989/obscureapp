@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {PropTypes} from 'prop-types'
 
 import create from 'zustand'
+
+import StarRating from 'components/StarRating'
 
 import styles from './ProductDetail.module.scss'
 
@@ -41,6 +43,10 @@ function ProductDetail({slug}) {
     fetchProduct(slug)
   }, [])
 
+  const setScore = useCallback((score) => {
+    console.log(`score=${score}`)
+  })
+
   return (
     <>
       <h1>{title}</h1>
@@ -48,7 +54,7 @@ function ProductDetail({slug}) {
       <div className={styles.topContent}>
         <div className={styles.averageRating}>
           <span>{!!averageScore ? averageScore.toFixed(1) : '–.–'}</span>
-          <div className={styles.stars}></div>
+          <StarRating score={Math.round(averageScore || 0)} callback={setScore} />
         </div>
         <button id="btn-add-review">Add review</button>
       </div>
@@ -60,7 +66,7 @@ function ProductDetail({slug}) {
       <div className={styles.reviews}>
         {reviews.map(({id, score, text}) => (
           <div className={styles.reviewRow} key={id}>
-            <div className={styles.stars}></div>
+            <StarRating score={score} readonly />
             <span>
               <b>{score.toFixed(1)}</b>
               {!!text && `, ${text}`}
