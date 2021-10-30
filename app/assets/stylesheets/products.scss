@@ -58,5 +58,20 @@ hr {
 }
 
 .rating-modal {
-  color: blue;
+  .stars {
+    transform: translateX(-10px);
+  }
+  textarea {
+    border: none;
+    resize: none;
+    outline: none;
+    width: 100%;
+  }
+  .error {
+    visibility: hidden;
+    font-size: smaller;
+    font-weight: bold;
+    color: crimson;
+    transform: translateY(-9px);
+  }
 }

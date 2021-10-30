@@ -7,7 +7,7 @@
         <div class="stars" role="star-rating"
             data-rating=<%= (@product.average_score || 0).round %>
             data-rating-max="5"
-            data-rating-callback="ratingCallback">
+            data-rating-readonly>
         </div>
     </div>
     <button id="btn-add-review">Add review</button>
@@ -58,20 +58,62 @@
 
 <template id="rating-modal">
     <h1>What's your rating?</h1>
+    <form method="POST" action="/products/submitReview">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+        <input name="slug" value=<%= @product.slug %> type="hidden">
+        <h5>Rating</h5>
+        <div class="stars" role="star-rating"
+            data-rating-max="5"
+            data-rating-callback="ratingCallback">
+        </div>
+        <p class="error">Please enter a score</p>
+        <h5>Review</h5>
+        <textarea name="text" placeholder="Start typing..."></textarea>
+        <button type="submit">Submit review</button>
+    </form>
 </template>
 
 <script>
     function ratingCallback(score) {
-        console.log(`score: ${score}`)
+        const stars = document.querySelector('.rating-modal .stars')
+        stars.setAttribute('data-rating', score)
+        document.querySelector('.rating-modal .error').style.visibility = 'hidden'
+    }
+
+    function submitReview(e) {
+        const scoreAttr =
+            document.querySelector('.rating-modal .stars').getAttribute('data-rating')
+
+        if (scoreAttr === null) {
+            document.querySelector('.rating-modal .error').style.visibility = 'visible'
+            e.preventDefault()
+            return false
+        }
+
+        const form = document.querySelector('.rating-modal form')
+        const inputEl = document.createElement('input')
+        Object.assign(inputEl, {
+            type: 'hidden',
+            name: 'score',
+            value: scoreAttr,
+        })
+        form.appendChild(inputEl)
+
+        return true
     }
 
     const ratingModal = new tingle.modal({
         cssClass: ['rating-modal'],
         onOpen: () => {
-            console.log('onOpen')
+            const form = document.querySelector('.rating-modal form')
+            form.addEventListener('submit', submitReview)
+
+            const textarea = document.querySelector('.rating-modal textarea')
+            textarea.focus()
         },
         beforeClose: () => {
-            console.log('beforeClose')
+            const form = document.querySelector('.rating-modal form')
+            form.removeEventListener('submit', submitReview)
             return true
         },
     })
