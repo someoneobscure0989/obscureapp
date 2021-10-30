@@ -23,6 +23,21 @@
   margin: 80px auto 0 auto;
   overflow-x: hidden;
 }
+@media (max-width: 1039px) {
+  .root {
+    margin: 80px 0 0 0;
+  }
+}
+@media (min-width: 880px) and (max-width: 1039px) {
+  .root {
+    width: 100%;
+  }
+}
+@media (max-width: 879px) {
+  .root {
+    width: 880px;
+  }
+}
 
 button {
   display: inline-block;
