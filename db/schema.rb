@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_10_30_032753) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "products", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_10_30_032753) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "product_id", null: false
+    t.bigint "product_id", null: false
     t.float "score", null: false
     t.text "text"
     t.datetime "created_at", precision: 6, null: false
