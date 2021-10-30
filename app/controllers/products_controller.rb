@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     @product = Product.find_by! slug: params[:slug]
     Review.create(
       product: @product,
-      score: params[:score].to_i,
+      score: params[:score].to_f,
       text: params[:text]
     )
     redirect_to "/products/#{params[:slug]}"

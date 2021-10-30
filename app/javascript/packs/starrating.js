@@ -4,6 +4,7 @@ const DATA_RATING_READONLY = 'data-rating-readonly'
 const DATA_RATING_CALLBACK = 'data-rating-callback'
 
 const STAR_EMPTY = 'star-empty'
+const STAR_HALF = 'star-half'
 const STAR_FULL = 'star-full'
 
 const ZERO_AREA_PADDING_PX = 10
@@ -24,15 +25,17 @@ class StarRating {
   _getEventScore(e) {
     const idx = Number(e.currentTarget.getAttribute('data-rating-idx'))
     let x = e.offsetX
+    let width = e.currentTarget.clientWidth
 
     if (idx === 0) {
       if (x < ZERO_AREA_PADDING_PX) {
         return 0
       }
       x -= ZERO_AREA_PADDING_PX
+      width -= ZERO_AREA_PADDING_PX
     }
 
-    return idx + 1
+    return idx + (x >= width / 2 ? 1 : 0.5)
   }
 
   _handleMouseMove(e) {
@@ -79,7 +82,7 @@ class StarRating {
   }
 
   _setStarClass(el, className) {
-    for (let cls of [STAR_EMPTY, STAR_FULL]) {
+    for (let cls of [STAR_EMPTY, STAR_HALF, STAR_FULL]) {
       el.classList.remove(cls)
     }
     el.classList.add(className)
@@ -95,12 +98,16 @@ class StarRating {
       score = this.state.score
     }
 
-    let fullStars = Math.max(Math.trunc(Math.min(score, maxScore)), 0)
+    const fullStars = Math.max(Math.trunc(Math.min(score, maxScore)), 0)
+    const hasHalfStar = !!(score % 1) && score < maxScore
     const stars = container.children
 
     let i
     for (i = 0; i < fullStars; i++) {
       this._setStarClass(stars[i], STAR_FULL)
+    }
+    if (hasHalfStar) {
+      this._setStarClass(stars[i++], STAR_HALF)
     }
     for (; i < maxScore; i++) {
       this._setStarClass(stars[i], STAR_EMPTY)
