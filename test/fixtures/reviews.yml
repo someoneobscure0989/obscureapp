@@ -1,9 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  score: 
-  text: MyText
-
-two:
-  score: 
+  product_id: 1
+  score: 1
   text: MyText
